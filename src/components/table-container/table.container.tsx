@@ -1,6 +1,21 @@
-import { Table } from 'flowbite-react';
+import { Button, Table } from 'flowbite-react';
 
-function TableContainer() {
+export type MemberList = {
+  memberId: string;
+  name: string;
+  email: string;
+  address: string;
+  organization: string;
+  designation: string;
+  contact: string;
+  status: boolean;
+};
+
+type TableContainerProps = {
+  list: MemberList[];
+};
+
+function TableContainer({ list }: TableContainerProps) {
   return (
     <Table className="my-2">
       <Table.Head>
@@ -14,22 +29,37 @@ function TableContainer() {
         <Table.HeadCell>Status</Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y">
-        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-            Apple MacBook Pro 17"
-          </Table.Cell>
-          <Table.Cell>Sliver</Table.Cell>
-          <Table.Cell>Laptop</Table.Cell>
-          <Table.Cell>$2999</Table.Cell>
-          <Table.Cell>$2999</Table.Cell>
-          <Table.Cell>$2999</Table.Cell>
-          <Table.Cell>
-            <span className="font-medium text-blue-600 hover:underline dark:text-blue-500">
-              Edit
-            </span>
-          </Table.Cell>
-          <Table.Cell>Block</Table.Cell>
-        </Table.Row>
+        {list.length > 0 ? (
+          list.map((item) => {
+            return (
+              <Table.Row
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                key={item.memberId}
+              >
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {item.name}
+                </Table.Cell>
+                <Table.Cell>{item.email}</Table.Cell>
+                <Table.Cell>{item.address}</Table.Cell>
+                <Table.Cell>{item.organization}</Table.Cell>
+                <Table.Cell>{item.designation}</Table.Cell>
+                <Table.Cell>{item.contact}</Table.Cell>
+                <Table.Cell>
+                  <Button>Edit</Button>
+                </Table.Cell>
+                <Table.Cell>
+                  <Button>{item.status ? 'Block' : 'Unblock'}</Button>
+                </Table.Cell>
+              </Table.Row>
+            );
+          })
+        ) : (
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              No Data Available
+            </Table.Cell>
+          </Table.Row>
+        )}
       </Table.Body>
     </Table>
   );

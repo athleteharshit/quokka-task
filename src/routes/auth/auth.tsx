@@ -1,7 +1,9 @@
 import { Label, TextInput, Button } from 'flowbite-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Auth() {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +16,7 @@ function Auth() {
 
   const handleSubmit = (eve: React.FormEvent<HTMLFormElement>) => {
     eve.preventDefault();
-    console.log(credentials);
+    navigate('home');
   };
 
   return (
@@ -46,7 +48,18 @@ function Auth() {
             required
           />
         </div>
-        <Button type="submit">Submit</Button>
+        <Button
+          disabled={
+            !/^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,})$/.test(
+              credentials.email
+            ) ||
+            !(credentials.password.length >= 6) ||
+            !(credentials.password.length <= 15)
+          }
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     </div>
   );

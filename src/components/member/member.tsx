@@ -70,13 +70,28 @@ function Member() {
     setModal(true);
   };
 
+  const handleStatus = (memberId: string) => {
+    const findMember = memberList.find((item) => item.memberId === memberId);
+    const filterMember = memberList.filter(
+      (item) => item.memberId !== memberId
+    );
+    setMemberList([
+      ...filterMember,
+      { ...findMember, status: !findMember?.status },
+    ]);
+  };
+
   return (
     <div className="p-4">
       <div className="flex items-center justify-between">
         <h1>Member List</h1>
         <Button onClick={handleModalOpen}>Add a member</Button>
       </div>
-      <TableContainer list={memberList} handleEdit={handleEdit} />
+      <TableContainer
+        list={memberList}
+        handleEdit={handleEdit}
+        handleStatus={handleStatus}
+      />
       <ModalContainer
         show={modal}
         onClose={handleModalClose}

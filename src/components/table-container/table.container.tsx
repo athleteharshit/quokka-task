@@ -14,9 +14,14 @@ export type MemberList = {
 type TableContainerProps = {
   list: MemberList[];
   handleEdit: (id: string) => void;
+  handleStatus: (id: string) => void;
 };
 
-function TableContainer({ list, handleEdit }: TableContainerProps) {
+function TableContainer({
+  list,
+  handleEdit,
+  handleStatus,
+}: TableContainerProps) {
   return (
     <Table className="my-2">
       <Table.Head>
@@ -51,7 +56,9 @@ function TableContainer({ list, handleEdit }: TableContainerProps) {
                   </Button>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button>{item.status ? 'Block' : 'Unblock'}</Button>
+                  <Button onClick={() => handleStatus(item.memberId)}>
+                    {item.status ? 'Block' : 'Unblock'}
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             );

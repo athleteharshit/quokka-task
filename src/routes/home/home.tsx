@@ -1,5 +1,13 @@
+import Header from '../../components/header/heder';
+import Member from '../../components/member/member';
+
 function Home() {
-  return <div>Home</div>;
+  return (
+    <section className="max-w-screen-xl mx-auto">
+      <Header />
+      <Member />
+    </section>
+  );
 }
 
 export default Home;

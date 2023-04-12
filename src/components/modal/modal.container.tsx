@@ -132,7 +132,7 @@ function ModalContainer({
               className="basis-1/2"
               value={user.contact}
               onChange={handleChange}
-              type="text"
+              type="number"
               name="contact"
               placeholder="Contact"
               required

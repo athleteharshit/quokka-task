@@ -6,6 +6,7 @@ import ModalContainer from '../modal/modal.container';
 
 function Member() {
   const [inputSearch, setInputSearch] = useState('');
+  const [ascending, setAscending] = useState(true);
   const [modal, setModal] = useState(false);
   const [member, setMember] = useState({
     memberId: '',
@@ -105,13 +106,19 @@ function Member() {
           onChange={handleInputSearch}
           type="text"
           name="inputSearch"
-          placeholder="Search"
+          placeholder="Search By Name"
           required
         />
+        <div>
+          <Button onClick={() => setAscending(!ascending)}>
+            Sort By Name {ascending ? 'Asc' : 'Des'}
+          </Button>
+        </div>
         <Button onClick={handleModalOpen}>Add a member</Button>
       </div>
       <TableContainer
         list={filterSearchList()}
+        ascending={ascending}
         handleEdit={handleEdit}
         handleStatus={handleStatus}
       />

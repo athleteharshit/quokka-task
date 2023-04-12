@@ -1,4 +1,5 @@
 import { Button, Table } from 'flowbite-react';
+import { useEffect, useState } from 'react';
 
 export type MemberList = {
   memberId: string;
@@ -13,15 +14,28 @@ export type MemberList = {
 
 type TableContainerProps = {
   list: MemberList[];
+  ascending: boolean;
   handleEdit: (id: string) => void;
   handleStatus: (id: string) => void;
 };
 
 function TableContainer({
   list,
+  ascending,
   handleEdit,
   handleStatus,
 }: TableContainerProps) {
+  const [memberList, setMemberList] = useState(list);
+
+  useEffect(() => {
+    const newMemberList = [...list].sort((a, b) => {
+      if (!ascending)
+        return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+      return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1;
+    });
+    setMemberList([...newMemberList]);
+  }, [list, ascending]);
+
   return (
     <Table className="my-2">
       <Table.Head>
@@ -35,8 +49,8 @@ function TableContainer({
         <Table.HeadCell>Status</Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y">
-        {list.length > 0 ? (
-          list.map((item) => {
+        {memberList.length > 0 ? (
+          memberList.map((item) => {
             return (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"

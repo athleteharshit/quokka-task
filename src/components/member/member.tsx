@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Button } from 'flowbite-react';
-
+import { Button, TextInput } from 'flowbite-react';
 import TableContainer, { MemberList } from '../table-container/table.container';
 import getUniqueId from '../../utils/common.fun';
 import ModalContainer from '../modal/modal.container';
 
 function Member() {
+  const [inputSearch, setInputSearch] = useState('');
   const [modal, setModal] = useState(false);
   const [member, setMember] = useState({
     memberId: '',
@@ -81,14 +81,37 @@ function Member() {
     ]);
   };
 
+  const handleInputSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputSearch(event.target.value);
+  };
+
+  const filterSearchList = () => {
+    const newMemberList = memberList.filter((item) => {
+      if (inputSearch === '') return item;
+      if (item.name.toLowerCase().includes(inputSearch.toLowerCase())) {
+        return item;
+      }
+    });
+    return newMemberList;
+  };
+
   return (
     <div className="p-4">
       <div className="flex items-center justify-between">
         <h1>Member List</h1>
+        <TextInput
+          className="basis-1/2"
+          value={inputSearch}
+          onChange={handleInputSearch}
+          type="text"
+          name="inputSearch"
+          placeholder="Search"
+          required
+        />
         <Button onClick={handleModalOpen}>Add a member</Button>
       </div>
       <TableContainer
-        list={memberList}
+        list={filterSearchList()}
         handleEdit={handleEdit}
         handleStatus={handleStatus}
       />

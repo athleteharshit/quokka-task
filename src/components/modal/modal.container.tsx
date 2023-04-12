@@ -31,6 +31,18 @@ function ModalContainer({
   useEffect(() => {
     if (member.memberId && member.action === 'Edit') {
       setUser({ ...member });
+    } else {
+      setUser({
+        memberId: '',
+        name: '',
+        email: '',
+        address: '',
+        organization: '',
+        designation: '',
+        contact: '',
+        status: false,
+        action: 'Add',
+      });
     }
   }, [member]);
 
@@ -46,7 +58,7 @@ function ModalContainer({
     eve.preventDefault();
     addMember({
       ...user,
-      memberId: getUniqueId(),
+      ...(user.action === 'Add' && { memberId: getUniqueId() }),
     });
     onClose();
   };

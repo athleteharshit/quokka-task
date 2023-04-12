@@ -33,6 +33,17 @@ function Member() {
 
   const handleModalOpen = () => {
     setModal(true);
+    setMember({
+      memberId: '',
+      name: '',
+      email: '',
+      address: '',
+      organization: '',
+      designation: '',
+      contact: '',
+      status: false,
+      action: 'Add',
+    });
   };
 
   const handleModalClose = () => {
@@ -40,7 +51,23 @@ function Member() {
   };
 
   const handleAddMember = (user: MemberList & { action: 'Edit' | 'Add' }) => {
-    setMemberList([...memberList, user]);
+    if (user.action === 'Edit') {
+      const findMember = memberList.filter(
+        (item) => item.memberId !== user.memberId
+      );
+      setMemberList([...findMember, user]);
+    } else {
+      setMemberList([...memberList, user]);
+    }
+  };
+
+  const handleEdit = (memberId: string) => {
+    const findMember = memberList.filter((item) => item.memberId === memberId);
+    setMember({
+      ...findMember[0],
+      action: 'Edit',
+    });
+    setModal(true);
   };
 
   return (
@@ -49,7 +76,7 @@ function Member() {
         <h1>Member List</h1>
         <Button onClick={handleModalOpen}>Add a member</Button>
       </div>
-      <TableContainer list={memberList} />
+      <TableContainer list={memberList} handleEdit={handleEdit} />
       <ModalContainer
         show={modal}
         onClose={handleModalClose}
